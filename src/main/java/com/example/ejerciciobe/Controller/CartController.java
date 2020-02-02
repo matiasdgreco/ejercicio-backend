@@ -44,4 +44,10 @@ public class CartController {
     public List<CartProduct> getCartProducts(@PathVariable Long id) {
         return service.findById(id).get().getCartProducts();
     }
+
+    @RequestMapping(value = "/{id}/checkout", method = RequestMethod.POST)
+    public ResponseEntity checkoutCart(@PathVariable Long id) {
+        service.checkout(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

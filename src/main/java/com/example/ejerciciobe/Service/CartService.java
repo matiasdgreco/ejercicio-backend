@@ -44,4 +44,11 @@ public class CartService {
         cart.addToTotal(product.getUnit_price() * cartProductRequest.getQuantity());
         repository.save(cart);
     }
+
+    public void checkout(Long id) {
+        Optional<Cart> optionalCart = findById(id);
+        Cart cart = optionalCart.get();
+        cart.setStatus(Status.READY);
+        save(cart);
+    }
 }
