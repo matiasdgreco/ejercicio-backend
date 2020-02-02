@@ -1,6 +1,8 @@
 package com.example.ejerciciobe.Service;
 
 import com.example.ejerciciobe.Entity.Cart;
+import com.example.ejerciciobe.Entity.CartProduct;
+import com.example.ejerciciobe.Entity.CartProductRequest;
 import com.example.ejerciciobe.Entity.CartRequest;
 import com.example.ejerciciobe.Repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class CartService {
     private CartRepository repository;
+    private CartProductService cartProductService;
 
     @Autowired
-    public CartService(CartRepository repository) {
+    public CartService(CartRepository repository, CartProductService cartProductService) {
         this.repository = repository;
+        this.cartProductService = cartProductService;
     }
 
     public void save(Cart cart) {
@@ -29,5 +33,9 @@ public class CartService {
 
     public Optional<Cart> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public void addProduct(Cart cart, CartProductRequest cartProductRequest) {
+        cartProductService.addCartProduct(cart, cartProductRequest);
     }
 }
