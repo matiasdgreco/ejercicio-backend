@@ -70,4 +70,8 @@ public class Cart {
     public void addToTotal(Double subtotal) {
         this.total += subtotal;
     }
+
+    public void substractFromTotal(Double value) {
+        this.total -= value;
+    }
 }

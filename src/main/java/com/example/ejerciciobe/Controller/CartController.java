@@ -50,4 +50,10 @@ public class CartController {
         service.checkout(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/{id}/products/{productId}", method = RequestMethod.DELETE)
+    public ResponseEntity removeProductFromCart(@PathVariable Long id, @PathVariable Long productId) {
+        service.removeProduct(id, productId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

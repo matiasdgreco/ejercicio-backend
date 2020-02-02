@@ -51,4 +51,15 @@ public class CartService {
         cart.setStatus(Status.READY);
         save(cart);
     }
+
+    public void removeProduct(Long cartId, Long productId) {
+        Optional<CartProduct> optionalCartProduct = cartProductService.findByCartIdAndProductId(cartId, productId);
+        CartProduct cartProduct = optionalCartProduct.get();
+
+        Cart cart = cartProduct.getCart();
+        cart.substractFromTotal(cartProduct.getSubtotal());
+
+        cartProductService.delete(cartProduct);
+        save(cart);
+    }
 }

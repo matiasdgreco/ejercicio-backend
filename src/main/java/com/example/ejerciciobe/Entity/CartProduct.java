@@ -1,5 +1,7 @@
 package com.example.ejerciciobe.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -31,6 +33,11 @@ public class CartProduct implements Serializable {
         return id;
     }
 
+    @JsonIgnore
+    public Cart getCart() {
+        return cart;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -41,5 +48,10 @@ public class CartProduct implements Serializable {
 
     public Double getUnit_price() {
         return unit_price;
+    }
+
+    @JsonIgnore
+    public Double getSubtotal() {
+        return this.unit_price * this.quantity;
     }
 }
