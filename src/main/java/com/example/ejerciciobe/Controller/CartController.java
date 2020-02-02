@@ -1,6 +1,7 @@
 package com.example.ejerciciobe.Controller;
 
 import com.example.ejerciciobe.Entity.Cart;
+import com.example.ejerciciobe.Entity.CartProduct;
 import com.example.ejerciciobe.Entity.CartProductRequest;
 import com.example.ejerciciobe.Entity.CartRequest;
 import com.example.ejerciciobe.Service.CartService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,7 +29,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Optional<Cart> getProductById(@PathVariable Long id) {
+    public Optional<Cart> getCartById(@PathVariable Long id) {
         return service.findById(id);
     }
 
@@ -36,5 +38,10 @@ public class CartController {
         Optional<Cart> optionalCart = service.findById(id);
         service.addProduct(optionalCart.get(), cartProductRequest);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
+    public List<CartProduct> getCartProducts(@PathVariable Long id) {
+        return service.findById(id).get().getCartProducts();
     }
 }
