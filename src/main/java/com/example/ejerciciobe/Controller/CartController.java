@@ -42,7 +42,7 @@ public class CartController {
 
     @RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
     public List<CartProduct> getCartProducts(@PathVariable Long id) {
-        return service.findById(id).get().getCartProducts();
+        return service.findById(id).get().getProducts();
     }
 
     @RequestMapping(value = "/{id}/checkout", method = RequestMethod.POST)

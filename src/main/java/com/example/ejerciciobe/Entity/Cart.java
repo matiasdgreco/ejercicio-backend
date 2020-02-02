@@ -21,7 +21,7 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private Status status;
     @OneToMany(mappedBy = "cart")
-    private List<CartProduct> cartProducts;
+    private List<CartProduct> products;
 
     protected Cart() {
     }
@@ -32,7 +32,7 @@ public class Cart {
         creationDate = new Date();
         total = (double) 0;
         status = Status.NEW;
-        cartProducts = new ArrayList<>();
+        products = new ArrayList<>();
     }
 
     public Long getId() {
@@ -63,8 +63,8 @@ public class Cart {
         this.status = status;
     }
 
-    public List<CartProduct> getCartProducts() {
-        return cartProducts;
+    public List<CartProduct> getProducts() {
+        return products;
     }
 
     public void addToTotal(Double subtotal) {
