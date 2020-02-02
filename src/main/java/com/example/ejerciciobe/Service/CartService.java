@@ -1,9 +1,6 @@
 package com.example.ejerciciobe.Service;
 
-import com.example.ejerciciobe.Entity.Cart;
-import com.example.ejerciciobe.Entity.CartProduct;
-import com.example.ejerciciobe.Entity.CartProductRequest;
-import com.example.ejerciciobe.Entity.CartRequest;
+import com.example.ejerciciobe.Entity.*;
 import com.example.ejerciciobe.Repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +11,13 @@ import java.util.Optional;
 public class CartService {
     private CartRepository repository;
     private CartProductService cartProductService;
+    private ProductService productService;
 
     @Autowired
-    public CartService(CartRepository repository, CartProductService cartProductService) {
+    public CartService(CartRepository repository, CartProductService cartProductService, ProductService productService) {
         this.repository = repository;
         this.cartProductService = cartProductService;
+        this.productService = productService;
     }
 
     public void save(Cart cart) {
@@ -36,6 +35,13 @@ public class CartService {
     }
 
     public void addProduct(Cart cart, CartProductRequest cartProductRequest) {
-        cartProductService.addCartProduct(cart, cartProductRequest);
+        Optional<Product> optionalProduct = productService.findById(cartProductRequest.getId());
+        Product product = optionalProduct.get();
+
+        CartProduct cartProduct = new CartProduct(cart, product, cartProductRequest.getQuantity(), product.getUnit_price());
+        cartProductService.save(cartProduct);
+
+        cart.addToTotal(product.getUnit_price() * cartProductRequest.getQuantity());
+        repository.save(cart);
     }
 }

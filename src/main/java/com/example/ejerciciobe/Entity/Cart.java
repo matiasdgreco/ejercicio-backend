@@ -17,7 +17,7 @@ public class Cart {
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
-    private Float total;
+    private Double total;
     @Enumerated(EnumType.STRING)
     private Status status;
     @OneToMany(mappedBy = "cart")
@@ -30,7 +30,7 @@ public class Cart {
         fullName = cartRequest.getFullName();
         email = cartRequest.getEmail();
         creationDate = new Date();
-        total = (float) 0;
+        total = (double) 0;
         status = Status.NEW;
         cartProducts = new ArrayList<>();
     }
@@ -51,7 +51,7 @@ public class Cart {
         return creationDate;
     }
 
-    public Float getTotal() {
+    public Double getTotal() {
         return total;
     }
 
@@ -61,5 +61,9 @@ public class Cart {
 
     public List<CartProduct> getCartProducts() {
         return cartProducts;
+    }
+
+    public void addToTotal(Double subtotal) {
+        this.total += subtotal;
     }
 }
