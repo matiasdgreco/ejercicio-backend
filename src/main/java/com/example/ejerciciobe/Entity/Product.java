@@ -39,4 +39,8 @@ public class Product {
     public Integer getStock() {
         return stock;
     }
+
+    public void substractFromStock(Integer quantity) {
+        stock -= quantity;
+    }
 }

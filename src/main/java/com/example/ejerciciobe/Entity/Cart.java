@@ -20,7 +20,7 @@ public class Cart {
     private Double total;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
     private List<CartProduct> products;
 
     protected Cart() {
