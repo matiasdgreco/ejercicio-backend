@@ -39,10 +39,10 @@ public class CartService {
         Optional<Product> optionalProduct = productService.findById(cartProductRequest.getId());
         Product product = optionalProduct.get();
 
-        CartProduct cartProduct = new CartProduct(cart, product, cartProductRequest.getQuantity(), product.getUnit_price());
+        CartProduct cartProduct = new CartProduct(cart, product, cartProductRequest.getQuantity());
         cartProductService.save(cartProduct);
 
-        cart.addToTotal(product.getUnit_price() * cartProductRequest.getQuantity());
+        cart.addToTotal(cartProduct.getSubtotal());
         repository.save(cart);
     }
 

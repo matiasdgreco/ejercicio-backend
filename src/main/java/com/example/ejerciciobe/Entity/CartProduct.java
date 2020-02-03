@@ -22,11 +22,11 @@ public class CartProduct implements Serializable {
     protected CartProduct() {
     }
 
-    public CartProduct(Cart cart, Product product, Integer quantity, Double unit_price) {
+    public CartProduct(Cart cart, Product product, Integer quantity) {
         this.cart = cart;
         this.product = product;
         this.quantity = quantity;
-        this.unit_price = unit_price;
+        this.unit_price = product.getUnit_price();
     }
 
     public Long getId() {
