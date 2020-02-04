@@ -64,6 +64,11 @@ public class CartService {
         }
         Cart cart = optionalCart.get();
         CartStatusChecker.statusNew(cart);
+
+        if (cart.getProducts().isEmpty()) {
+            throw new BadRequestException("Cart is empty");
+        }
+
         cart.setStatus(Status.READY);
         save(cart);
     }
