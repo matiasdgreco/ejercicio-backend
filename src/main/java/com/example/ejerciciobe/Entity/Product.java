@@ -40,7 +40,7 @@ public class Product {
         return stock;
     }
 
-    public void substractFromStock(Integer quantity) {
+    public void subtractFromStock(Integer quantity) {
         stock -= quantity;
     }
 }

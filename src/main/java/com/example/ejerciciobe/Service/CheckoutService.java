@@ -4,6 +4,7 @@ import com.example.ejerciciobe.Entity.Cart;
 import com.example.ejerciciobe.Entity.CartProduct;
 import com.example.ejerciciobe.Entity.Product;
 import com.example.ejerciciobe.Entity.Status;
+import com.example.ejerciciobe.Utils.CartStatusChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,15 @@ public class CheckoutService {
     }
 
     public void checkoutCart(Cart cart) {
+        CartStatusChecker.statusReady(cart);
         cart.setStatus(Status.PROCESSED);
         for (CartProduct cartProduct: cart.getProducts()) {
             Product product = cartProduct.getProduct();
-            if (cartProduct.getQuantity() > product.getStock()) {
+            if (!cartProduct.isStockAvailable()) {
                 cart.setStatus(Status.FAILED);
                 break;
             }
-            product.substractFromStock(cartProduct.getQuantity());
+            product.subtractFromStock(cartProduct.getQuantity());
             productService.save(product);
         }
         cartService.save(cart);

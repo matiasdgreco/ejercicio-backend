@@ -4,6 +4,7 @@ import com.example.ejerciciobe.Entity.Cart;
 import com.example.ejerciciobe.Entity.CartProduct;
 import com.example.ejerciciobe.Entity.CartProductRequest;
 import com.example.ejerciciobe.Entity.CartRequest;
+import com.example.ejerciciobe.Exception.EntityNotFoundException;
 import com.example.ejerciciobe.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +37,20 @@ public class CartController {
     @RequestMapping(value = "/{id}/products", method = RequestMethod.POST)
     public ResponseEntity addProduct(@PathVariable Long id, @RequestBody CartProductRequest cartProductRequest) {
         Optional<Cart> optionalCart = service.findById(id);
+        if (!optionalCart.isPresent()) {
+            throw new EntityNotFoundException();
+        }
         service.addProduct(optionalCart.get(), cartProductRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/products", method = RequestMethod.GET)
     public List<CartProduct> getCartProducts(@PathVariable Long id) {
-        return service.findById(id).get().getProducts();
+        Optional<Cart> optionalCart = service.findById(id);
+        if (!optionalCart.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+        return optionalCart.get().getProducts();
     }
 
     @RequestMapping(value = "/{id}/checkout", method = RequestMethod.POST)

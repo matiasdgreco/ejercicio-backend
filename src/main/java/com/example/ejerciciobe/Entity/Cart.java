@@ -71,7 +71,7 @@ public class Cart {
         this.total += subtotal;
     }
 
-    public void substractFromTotal(Double value) {
+    public void subtractFromTotal(Double value) {
         this.total -= value;
     }
 }
