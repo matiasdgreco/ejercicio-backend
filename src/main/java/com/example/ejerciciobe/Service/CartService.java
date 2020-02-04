@@ -68,7 +68,7 @@ public class CartService {
         CartProduct cartProduct = optionalCartProduct.get();
 
         Cart cart = cartProduct.getCart();
-        cart.substractFromTotal(cartProduct.getSubtotal());
+        cart.subtractFromTotal(cartProduct.getSubtotal());
 
         cartProductService.delete(cartProduct);
         save(cart);

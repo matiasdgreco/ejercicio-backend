@@ -26,7 +26,7 @@ public class CheckoutService {
                 cart.setStatus(Status.FAILED);
                 break;
             }
-            product.substractFromStock(cartProduct.getQuantity());
+            product.subtractFromStock(cartProduct.getQuantity());
             productService.save(product);
         }
         cartService.save(cart);
