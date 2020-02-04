@@ -22,7 +22,7 @@ public class CheckoutService {
         cart.setStatus(Status.PROCESSED);
         for (CartProduct cartProduct: cart.getProducts()) {
             Product product = cartProduct.getProduct();
-            if (cartProduct.getQuantity() > product.getStock()) {
+            if (!cartProduct.isStockAvailable()) {
                 cart.setStatus(Status.FAILED);
                 break;
             }

@@ -54,4 +54,9 @@ public class CartProduct implements Serializable {
     public Double getSubtotal() {
         return this.unit_price * this.quantity;
     }
+
+    @JsonIgnore
+    public Boolean isStockAvailable() {
+        return product.getStock() >= quantity;
+    }
 }
