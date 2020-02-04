@@ -29,6 +29,7 @@ class CheckoutServiceTest {
     public void testCartProcessed() {
         CartProduct cartProduct = new CartProduct(cart, product, 1);
         cart.getProducts().add(cartProduct);
+        cart.setStatus(Status.READY);
         checkoutService.checkoutCart(cart);
         assertEquals(Status.PROCESSED, cart.getStatus());
         assertEquals(4, product.getStock());
@@ -38,6 +39,7 @@ class CheckoutServiceTest {
     public void testCartFailed() {
         CartProduct cartProduct = new CartProduct(cart, product, 6);
         cart.getProducts().add(cartProduct);
+        cart.setStatus(Status.READY);
         checkoutService.checkoutCart(cart);
         assertEquals(Status.FAILED, cart.getStatus());
         assertEquals(5, product.getStock());
