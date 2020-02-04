@@ -1,6 +1,7 @@
 package com.example.ejerciciobe.Service;
 
 import com.example.ejerciciobe.Entity.*;
+import com.example.ejerciciobe.Exception.EntityNotFoundException;
 import com.example.ejerciciobe.Repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class CartService {
 
     public void addProduct(Cart cart, CartProductRequest cartProductRequest) {
         Optional<Product> optionalProduct = productService.findById(cartProductRequest.getId());
+        if (!optionalProduct.isPresent()) {
+            throw new EntityNotFoundException();
+        }
         Product product = optionalProduct.get();
 
         CartProduct cartProduct = new CartProduct(cart, product, cartProductRequest.getQuantity());
@@ -48,6 +52,9 @@ public class CartService {
 
     public void checkout(Long id) {
         Optional<Cart> optionalCart = findById(id);
+        if (!optionalCart.isPresent()) {
+            throw new EntityNotFoundException();
+        }
         Cart cart = optionalCart.get();
         cart.setStatus(Status.READY);
         save(cart);
@@ -55,6 +62,9 @@ public class CartService {
 
     public void removeProduct(Long cartId, Long productId) {
         Optional<CartProduct> optionalCartProduct = cartProductService.findByCartIdAndProductId(cartId, productId);
+        if (!optionalCartProduct.isPresent()) {
+            throw new EntityNotFoundException();
+        }
         CartProduct cartProduct = optionalCartProduct.get();
 
         Cart cart = cartProduct.getCart();
