@@ -4,6 +4,7 @@ import com.example.ejerciciobe.Entity.*;
 import com.example.ejerciciobe.Exception.BadRequestException;
 import com.example.ejerciciobe.Exception.EntityNotFoundException;
 import com.example.ejerciciobe.Repository.CartRepository;
+import com.example.ejerciciobe.Utils.CartStatusChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,7 @@ public class CartService {
     }
 
     public void addProduct(Cart cart, CartProductRequest cartProductRequest) {
-        if (cart.getStatus() != Status.NEW) {
-            throw new BadRequestException("The selected cart has already been processed");
-        }
-
+        CartStatusChecker.statusNew(cart);
         Optional<Product> optionalProduct = productService.findById(cartProductRequest.getId());
         if (!optionalProduct.isPresent()) {
             throw new EntityNotFoundException();
@@ -65,6 +63,7 @@ public class CartService {
             throw new EntityNotFoundException();
         }
         Cart cart = optionalCart.get();
+        CartStatusChecker.statusNew(cart);
         cart.setStatus(Status.READY);
         save(cart);
     }
